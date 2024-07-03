@@ -1,11 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <script th:inline="javascript">
+        let postData = /*[[${data}]]*/ {};
+        console.log(postData);
+    </script>
+</head>
 <body>
     <div th:replace="~{fragment/layout.html :: layoutFragment}"></div>
 
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
+                <th:block th:if="${data != null and data.content.size() > 0}">
+                    <div class="post-preview">
+                        <a th:href="@{/post/page}">
+                            <h2 class="post-title">Man must explore, and this is exploration at its greatest</h2>
+                            <h3 class="post-subtitle">Problems look mighty small from 150 miles up</h3>
+                        </a>
+                        <p class="post-meta">
+                            Posted by
+                            <a href="#!">Start Bootstrap</a>
+                            on September 24, 2023
+                        </p>
+                    </div>
+
+                    <hr class="my-4" />
+                </th:block>
                 <!-- Post preview-->
                 <div class="post-preview">
                     <a th:href="@{/post/page}">

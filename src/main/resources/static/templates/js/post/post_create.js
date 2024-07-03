@@ -68,6 +68,23 @@ let postCreate = function (e) {
     // 작성 버튼 클릭
     function handleCreateBtnClick(){
         console.log("작성 버튼 클릭");
+        let post = {
+            title : document.getElementById("title").value.trim(),
+            writer : "테스터",
+            content : document.getElementById("content").value.trim()
+        }
+
+        $.ajax({
+            url: ctx + "/ajax/post/create",
+            data: post,
+            method: "POST",
+            success: function(res) {
+                console.log(res);
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX 오류 발생:", error);
+            }
+        });
     }
 
     return {
@@ -76,8 +93,8 @@ let postCreate = function (e) {
         },
         handleCreateBtnClick: handleCreateBtnClick
     }
-}
+}();
 
 $(function() {
-    postCreate().init();
+    postCreate.init();
 })

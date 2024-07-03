@@ -1,18 +1,24 @@
 package com.dhkim.blog.post.controller;
 
 import com.dhkim.blog.post.Dto.PostDto;
+import com.dhkim.blog.post.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/ajax/post")
 public class PostAjaxController {
+    private final PostService service;
     @PostMapping("/create")
-    public String postCreate(HttpServletRequest request, PostDto postDto){
-        System.out.println(postDto);
-        return "";
+    public String postCreate(PostDto postDto){
+        try{
+            service.savePost(postDto);
+
+            return "success";
+        }catch (Exception e){
+            return "error";
+        }
     }
 }
