@@ -1,6 +1,6 @@
 package com.dhkim.blog.post.repository;
 
-import com.dhkim.blog.post.Domain.Post;
+import com.dhkim.blog.post.domain.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

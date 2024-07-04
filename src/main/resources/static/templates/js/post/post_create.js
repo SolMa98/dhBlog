@@ -91,7 +91,7 @@ let postCreate = function (e) {
         init : function() {
             postEvent()
         },
-        handleCreateBtnClick: handleCreateBtnClick
+        handleCreateBtnClick
     }
 }();
 

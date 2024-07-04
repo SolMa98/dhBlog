@@ -1,4 +1,4 @@
-package com.dhkim.blog.post.Dto;
+package com.dhkim.blog.post.dto;
 
 import lombok.Data;
 

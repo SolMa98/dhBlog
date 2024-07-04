@@ -1,8 +1,7 @@
 package com.dhkim.blog.post.controller;
 
-import com.dhkim.blog.post.Dto.PostDto;
+import com.dhkim.blog.post.dto.PostDto;
 import com.dhkim.blog.post.service.PostService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

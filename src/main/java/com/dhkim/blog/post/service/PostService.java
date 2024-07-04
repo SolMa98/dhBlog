@@ -1,12 +1,10 @@
 package com.dhkim.blog.post.service;
 
-import com.dhkim.blog.post.Domain.Post;
-import com.dhkim.blog.post.Dto.PostDto;
+import com.dhkim.blog.post.domain.Post;
+import com.dhkim.blog.post.dto.PostDto;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
 
 public interface PostService {
     /**

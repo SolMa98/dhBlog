@@ -1,4 +1,4 @@
-package com.dhkim.blog.post.Domain;
+package com.dhkim.blog.post.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
