@@ -82,3 +82,12 @@
     pointer-events: none;
     opacity: 0.6;
 }
+
+.app-name {
+    cursor: default;
+    font-weight: bold;
+    color: white;
+}
+.app-name:hover {
+    color: white;
+}

@@ -79,10 +79,11 @@ let postCreate = function (e) {
             data: post,
             method: "POST",
             success: function(res) {
-                console.log(res);
-            },
-            error: function(xhr, status, error) {
-                console.error("AJAX 오류 발생:", error);
+                if(res === "success"){
+                    window.location.href = ctx + "/post/list";
+                }else{
+                    alert("게시글 등록이 실패했습니다.");
+                }
             }
         });
     }
