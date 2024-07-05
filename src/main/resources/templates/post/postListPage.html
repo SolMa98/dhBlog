@@ -3,7 +3,9 @@
 <head>
     <script th:inline="javascript">
         let postData = /*[[${data}]]*/ {};
+        let page = /*[[${page}]]*/ {};
         console.log(postData);
+        console.log(page);
     </script>
 </head>
 <body>
@@ -27,11 +29,16 @@
                     <hr class="my-4" />
                 </th:block>
 
-                <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a></div>
+                <div class="page-space">
+                    <th:block th:if="${page != null}">
+                        <ul th:utext="${page.getNavigator()}">
+                        </ul>
+                    </th:block>
+                </div>
             </div>
         </div>
     </div>
 </body>
 
-<script src="/templates/js/post/post_list_page.js"></script>
+<script src="/page/js/post/post_list_page.js"></script>
 </html>

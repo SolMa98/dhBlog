@@ -1,0 +1,84 @@
+/* START) 페이지 관련 CSS */
+.page-space {
+    display: flex;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.page-space ul{
+    display: flex;
+    padding: 0;
+}
+
+.page-space li{
+    display: inline-block;
+    margin-right: 0;
+    padding: 0px 5px 0px 5px;
+    min-width: 30px;
+}
+
+.page-space li>a{
+    display: flex;
+    justify-content: center;
+}
+
+
+.page-space li:last-child{
+    border-right: 0;
+}
+
+.page-space .current{
+    color: #0d6efd;
+    text-decoration: underline;
+}
+
+.page-active {
+    cursor: pointer;
+}
+
+.page-space .first-page {
+    background: url("../img/first_page_icon.svg");
+    width: 20px;
+    height: 20px;
+}
+
+.page-space .first-page:hover {
+    background: url("../img/first_page_icon_hover.svg");
+}
+
+.page-space .prev-page {
+    background: url("../img/prev_page_icon.svg");
+    width: 20px;
+    height: 20px;
+}
+
+.page-space .prev-page:hover {
+    background: url("../img/prev_page_icon_hover.svg");
+}
+
+.page-space .next-page {
+    background: url("../img/next_page_icon.svg");
+    width: 20px;
+    height: 20px;
+}
+
+.page-space .next-page:hover {
+    background: url("../img/next_page_icon_hover.svg");
+}
+
+.page-space .last-page {
+    background: url("../img/last_page_icon.svg");
+    width: 20px;
+    height: 20px;
+}
+
+.page-space .last-page:hover {
+    background: url("../img/last_page_icon_hover.svg");
+}
+/* END) 페이지 관련 CSS */
+
+.disable {
+    pointer-events: none;
+    opacity: 0.6;
+}

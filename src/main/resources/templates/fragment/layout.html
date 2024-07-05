@@ -3,17 +3,17 @@
     <head>
         <title>나만의 블로그</title>
         <link rel="stylesheet" href="/templates/css/template.css">
+        <link rel="stylesheet" th:href="@{/page/css/layout.css}"/>
 
         <script th:inline="javascript">
             let ctx = window.location.protocol + "//" + window.location.host;
         </script>
+        <script src="/templates/js/jquery-3.7.1.min.js"></script>
+        <script src="/templates/js/template.js"></script>
     </head>
     <body>
         <div th:replace="~{fragment/header.html :: headFragment}"></div>
         <div th:replace="~{fragment/footer.html :: footerFragment}"></div>
-
-        <script src="/templates/js/jquery-3.7.1.min.js"></script>
-        <script src="/templates/js/template.js"></script>
     </body>
 
 </html>

@@ -3,6 +3,7 @@ package com.dhkim.blog.post.service;
 import com.dhkim.blog.post.domain.Post;
 import com.dhkim.blog.post.dto.PostDto;
 import com.dhkim.blog.post.repository.PostRepository;
+import com.dhkim.blog.util.PaginationUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,9 +41,11 @@ public class PostServiceImpl implements PostService{
     @Override
     public String postListPageOpen(HttpServletRequest request) {
         Pageable pageable = PageRequest.of(0, 10, Sort.by("createdAt").descending());
-
         Page<Post> postData = postRepository.findAll(pageable);
+        PaginationUtils pagination = PaginationUtils.getPagination(postData.getSize(), postData.getNumber(), postData.getTotalElements(), postData.getTotalPages());
+
         request.setAttribute("data", postData);
+        request.setAttribute("page", pagination);
 
         return "/post/postListPage";
     }
