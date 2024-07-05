@@ -16,7 +16,7 @@
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <th:block th:if="${data != null and data.content.size() > 0}" th:each="post : ${data.content}">
                     <div class="post-preview">
-                        <a th:href="@{/post/page}">
+                        <a th:href="@{/post/page(id=${post.id})}">
                             <h2 class="post-title" th:text="${post.title}"></h2>
                             <h3 class="post-subtitle" th:text="${#strings.length(post.content) &gt; 100 ? #strings.substring(post.content, 0, 100) + '...' : post.content}"></h3>
                         </a>

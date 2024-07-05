@@ -8,4 +8,6 @@ public class PostDto {
     private String title;
     private String content;
     private String writer;
+
+    private int page = 0;
 }

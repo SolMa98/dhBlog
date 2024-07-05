@@ -11,7 +11,9 @@ public interface PostService {
      * 블로그 전체 글 가져오기
      * @return 블로그 전체 글 Object List
      */
-    Page<Post> getAllPosts(Pageable pageable);
+    public Page<Post> getAllPosts(Pageable pageable);
+
+    public Post getPostById(String id);
 
     /**
      * 블로그 글 저장하기
@@ -25,7 +27,7 @@ public interface PostService {
      * @param request
      * @return "/post/postPage"
      */
-    public String postListPageOpen(HttpServletRequest request);
+    public String postListPageOpen(HttpServletRequest request, PostDto post);
 
     /**
      * 블로그 게시글 페이지

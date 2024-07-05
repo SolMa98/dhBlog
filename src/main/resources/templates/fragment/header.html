@@ -24,8 +24,13 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
           <div class="col-md-10 col-lg-8 col-xl-7">
             <div class="site-heading" id="post-title">
-              <h1>Blog</h1>
-              <span class="subheading">환영합니다</span>
+              <th:block th:if="${post != null}">
+                <h1 th:text="${post.title}"></h1>
+              </th:block>
+              <th:block th:unless="${post != null}">
+                <h1>Blog</h1>
+                <span class="subheading">환영합니다</span>
+              </th:block>
             </div>
           </div>
         </div>

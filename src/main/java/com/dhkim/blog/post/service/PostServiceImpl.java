@@ -29,6 +29,11 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
+    public Post getPostById(String id) {
+        return postRepository.findById(id).orElse(null);
+    }
+
+    @Override
     public Post savePost(PostDto postDto) {
         Post post = new Post();
         post.setTitle(postDto.getTitle());
@@ -39,8 +44,8 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public String postListPageOpen(HttpServletRequest request) {
-        Pageable pageable = PageRequest.of(0, 10, Sort.by("createdAt").descending());
+    public String postListPageOpen(HttpServletRequest request, PostDto post) {
+        Pageable pageable = PageRequest.of(post.getPage(), 10, Sort.by("createdAt").descending());
         Page<Post> postData = postRepository.findAll(pageable);
         PaginationUtils pagination = PaginationUtils.getPagination(postData.getSize(), postData.getNumber(), postData.getTotalElements(), postData.getTotalPages());
 
@@ -52,6 +57,9 @@ public class PostServiceImpl implements PostService{
 
     @Override
     public String postPageOpen(HttpServletRequest request, String id){
+        Post data = getPostById(id);
+        request.setAttribute("post", data);
+
         return "/post/postPage";
     }
 

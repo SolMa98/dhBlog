@@ -5,6 +5,11 @@ let postListPage = function(e){
         for(let modifiedTime of modifiedTimes){
             modifiedTime.textContent = formattedDate(modifiedTime.textContent);
         }
+
+        // 페이지 이동 이벤트
+        $(document).on("click", ".pagination", function(e){
+            window.location.href = ctx + "/post/list?page=" + e.target.dataset.page;
+        });
     }
 
     function formattedDate(dateString) {
