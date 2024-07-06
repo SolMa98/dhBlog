@@ -15,7 +15,7 @@ public class ImageUtils {
     private String fileName;
     private String filePath;
 
-    private static final String UPLOAD_DIR = "D:\\dhblog\\img\\";
+    private static final String UPLOAD_DIR = "src/main/resources/static/upload/img/";
 
     public static ImageUtils saveImgFile(MultipartFile image) throws IOException {
         if (image.isEmpty()) {

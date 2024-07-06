@@ -18,7 +18,7 @@
                     <div class="post-preview">
                         <a th:href="@{/post/page(id=${post.id})}">
                             <h2 class="post-title" th:text="${post.title}"></h2>
-                            <h3 class="post-subtitle" th:text="${#strings.length(post.content) &gt; 100 ? #strings.substring(post.content, 0, 100) + '...' : post.content}"></h3>
+                            <h3 class="post-subtitle" th:text="${#strings.length(#strings.replace(post.content, '[이미지 출력]', '')) > 100 ? #strings.substring(#strings.replace(post.content, '[이미지 출력]', ''), 0, 100) + '...' : #strings.replace(post.content, '[이미지 출력]', '')}"></h3>
                         </a>
                         <p class="post-meta">
                             <span th:text="${'작성자 : ' + post.writer}"></span>
@@ -39,6 +39,5 @@
         </div>
     </div>
 </body>
-
 <script src="/page/js/post/post_list_page.js"></script>
 </html>
