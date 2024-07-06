@@ -36,7 +36,11 @@ let postCreate = function (e) {
 
         // 내용 유효성 검사
         if( typeof type === "undefined" || type === "content"){
-            let contentValidation = content.value.trim() === "" ? "is-invalid" : "is-valid";
+            console.log(countOccurrences(content.value, "[이미지 출력]"))
+            console.log(Object.keys(imgList).length)
+            let contentValidation = (content.value.trim() === "")
+                || (countOccurrences(content.value, "[이미지 출력]") !== Object.keys(imgList).length)
+                ? "is-invalid" : "is-valid";
             validationText("content", contentValidation);
         }
 
@@ -67,13 +71,21 @@ let postCreate = function (e) {
         }
     }
 
+    // 특정 문구 찾기
+    function countOccurrences(text, searchString) {
+        let escapedSearchString = searchString.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        let regex = new RegExp(escapedSearchString, 'g');
+        let matches = text.match(regex);
+        return matches ? matches.length : 0;
+    }
+
     // 이미지 등록 버튼 클릭 후 이미지 등록 시 이벤트
     function handleImgInputBtnClick() {
         $(document).on("change", "#imgUpload", function (e){
             let randomId = Math.random().toString(36).substr(2,11);
             imgList[randomId] = e.target.files[0];
             imgDrawing(randomId);
-
+            postFilter("content");
             // 이미지 삽입 input tag 초기화
             e.target.value = "";
         });
@@ -114,11 +126,6 @@ let postCreate = function (e) {
 
     // 게시글 등록
     function handleCreateBtnClick(){
-        /*let post = {
-            title : document.getElementById("title").value.trim(),
-            writer : "테스터",
-            content : document.getElementById("content").value.trim(),
-        }*/
         let imgFormData = new FormData();
         imgFormData.append('title', document.getElementById("title").value.trim());
         imgFormData.append('content', document.getElementById("content").value.trim());
