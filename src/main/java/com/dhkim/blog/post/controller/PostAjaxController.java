@@ -4,6 +4,9 @@ import com.dhkim.blog.post.dto.PostDto;
 import com.dhkim.blog.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -11,10 +14,10 @@ import org.springframework.web.bind.annotation.*;
 public class PostAjaxController {
     private final PostService service;
     @PostMapping("/create")
-    public String postCreate(PostDto postDto){
+    public String postCreate(PostDto postDto, List<MultipartFile> images){
         try{
-            service.savePost(postDto);
-
+            service.savePost(postDto, images);
+            System.out.println(images);
             return "success";
         }catch (Exception e){
             return "error";

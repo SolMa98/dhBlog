@@ -5,6 +5,10 @@ import com.dhkim.blog.post.dto.PostDto;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 public interface PostService {
     /**
@@ -13,6 +17,11 @@ public interface PostService {
      */
     public Page<Post> getAllPosts(Pageable pageable);
 
+    /**
+     * 블로그 id로 select해서 특정 글 가져오기
+     * @param id
+     * @return 가져온 블로그 글
+     */
     public Post getPostById(String id);
 
     /**
@@ -20,7 +29,7 @@ public interface PostService {
      * @param postDto
      * @return 성공 or 실패 여부
      */
-    public Post savePost(PostDto postDto);
+    public ResponseEntity<String> savePost(PostDto postDto, List<MultipartFile> images);
 
     /**
      * 블로그 글 리스트 페이지

@@ -1,4 +1,6 @@
 let postCreate = function (e) {
+    let imgList = {};
+
     let postEvent = () => {
         // 제목 추가 or 수정
         let title = document.getElementById("title");
@@ -65,19 +67,73 @@ let postCreate = function (e) {
         }
     }
 
-    // 작성 버튼 클릭
+    // 이미지 등록 버튼 클릭 후 이미지 등록 시 이벤트
+    function handleImgInputBtnClick() {
+        $(document).on("change", "#imgUpload", function (e){
+            let randomId = Math.random().toString(36).substr(2,11);
+            imgList[randomId] = e.target.files[0];
+            imgDrawing(randomId);
+
+            // 이미지 삽입 input tag 초기화
+            e.target.value = "";
+        });
+    }
+
+    // 이미지 Html에 삽입
+    function imgDrawing(randomId) {
+        let imgPreviewHtml = `<div id="img_${randomId}">
+                                        <img id="previewImg${randomId}" data-key="${randomId}" />
+                                        <a class="img-delete" onclick="postCreate.imgDelete('${randomId}')"/>
+                                     </div>`;
+        let imgViewer = $("#imgViewer");
+
+        if(imgViewer.children("div").length === 0){
+            imgViewer.html(imgPreviewHtml);
+        }else{
+            imgViewer.append(imgPreviewHtml);
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('previewImg' + randomId).src = e.target.result;
+        }
+
+        reader.readAsDataURL(imgList[randomId]);
+    }
+
+    // 이미지 삭제
+    function imgDelete(randomId){
+        $("#img_" + randomId).remove();
+        delete imgList[randomId];
+
+        if($("#imgViewer").children("div").length === 0){
+            let noneImgMessage = `<label>등록된 이미지가 없습니다.</label>`;
+            $("#imgViewer").html(noneImgMessage);
+        }
+    }
+
+    // 게시글 등록
     function handleCreateBtnClick(){
-        console.log("작성 버튼 클릭");
-        let post = {
+        /*let post = {
             title : document.getElementById("title").value.trim(),
             writer : "테스터",
-            content : document.getElementById("content").value.trim()
-        }
+            content : document.getElementById("content").value.trim(),
+        }*/
+        let imgFormData = new FormData();
+        imgFormData.append('title', document.getElementById("title").value.trim());
+        imgFormData.append('content', document.getElementById("content").value.trim());
+        imgFormData.append('writer', "테스터");
+
+        Object.keys(imgList).forEach(function(key) {
+            imgFormData.append('images', imgList[key]);
+        });
 
         $.ajax({
             url: ctx + "/ajax/post/create",
-            data: post,
+            data: imgFormData,
             method: "POST",
+            processData: false,
+            contentType: false,
             success: function(res) {
                 if(res === "success"){
                     window.location.href = ctx + "/post/list";
@@ -91,8 +147,10 @@ let postCreate = function (e) {
     return {
         init : function() {
             postEvent()
+            handleImgInputBtnClick()
         },
-        handleCreateBtnClick
+        handleCreateBtnClick,
+        imgDelete
     }
 }();
 

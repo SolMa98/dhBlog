@@ -1,8 +1,12 @@
 package com.dhkim.blog.post.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table
@@ -13,7 +17,11 @@ public class Post {
     private Long id;
 
     private String title;
+
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String content;
+
     private String writer;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -23,6 +31,10 @@ public class Post {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "modified_at", nullable = false)
     private Date modifiedAt;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Image> postImages = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {

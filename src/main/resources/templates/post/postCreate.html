@@ -33,15 +33,20 @@
                     <br>
 
                     <div class="img-area">
-                        <label for="content">이미지</label>
-                        <div>
-                            <input class="d-none" type="file" id="imgUpload" accept="image/*">
-                            <img id="imgUploadBtn" th:src="@{/templates/img/plus_icon.svg}">
+                        <div class="img-title-area">
+                            <label for="content">이미지</label>
+                            <label class="img-tooltip" for="content" data-tooltip="내용에 이미지 개수만큼 '[이미지 출력]'을 입력해주세요. 이미지 등록 순서에 따라서 출력됩니다.">?</label>
+                            <div>
+                                <input class="d-none" type="file" id="imgUpload" accept="image/*">
+                                <a class="img-input-btn" id="imgUploadBtn">이미지 등록</a>
+                            </div>
+                        </div>
+                        <div class="img-viewer" id="imgViewer">
+                            <label>등록된 이미지가 없습니다.</label>
                         </div>
                     </div>
-                    <div class="img-viewer">
-                        <label>등록된 이미지가 없습니다.</label>
-                    </div>
+
+                    <br>
 
                     <!-- Submit Button-->
                     <div class="create-btn-area">
