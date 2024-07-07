@@ -1,0 +1,82 @@
+.login-form{
+    height: 100%;
+    background: whitesmoke;
+}
+
+.login-title-area {
+    display: flex;
+    justify-content: center;
+    font-size: 50px;
+    font-weight: bold;
+    padding-top: 20%;
+    margin-bottom: 5px;
+}
+
+.login-title-area span {
+    background: linear-gradient(to right top, #204b8a, #b1c9ed);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.login-input-area {
+    display: flex;
+    justify-content: center;
+}
+
+.login-input-area .login-input-box {
+    display: grid;
+    width: 50%;
+    max-width: 400px;
+}
+
+.login-input-area input{
+    padding: 10px 15px 10px 15px;
+    border-radius: 5px;
+    margin-right: 5px;
+    font-size: 15px;
+    border: solid 1px #cccccc;
+}
+
+.login-input-area input:focus {
+    outline: none;
+    border-color: #0d6efd;
+}
+
+.login-input-area input:nth-child(1){
+    margin-bottom: 5px;
+}
+
+.login-input-area .login-button {
+    height: 83px;
+    width: 83px;
+    background: linear-gradient(to right top, #204b8a, #b1c9ed);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.login-input-area .login-button:hover {
+    background: linear-gradient(to right top, #223e66, #ffffff);
+}
+
+.login-function-area {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.login-function-area a{
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.login-function-area a:hover{
+    color: #0d6efd;
+    text-decoration: underline;
+}
+
+.login-function-area a:last-child{
+    margin-right: 0;
+}
