@@ -4,4 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public interface LoginService {
     public String loginPageOpen(HttpServletRequest request);
+
+    public String createAccountPageOpen(HttpServletRequest request);
 }

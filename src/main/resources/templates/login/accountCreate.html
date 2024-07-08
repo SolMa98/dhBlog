@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko" class="account-form">
+<head>
+    <script src="/templates/js/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" th:href="@{/page/css/login/accountCreate.css}"/>
+</head>
+<body>
+    <div>
+        <div class="account-title-area">
+            <span>DHBLOG</span>
+        </div>
+
+        <div class="account-input-area">
+            <div class="account-input-box">
+                <div class="account-attribute">
+                    <span>아이디</span>
+                    <input type="text" id="id" placeholder="아이디를 입력해주세요."/>
+                </div>
+                <div class="account-attribute">
+                    <span>비밀번호</span>
+                    <input type="password" id="password" placeholder="비밀번호를 입력해주세요."/>
+                </div>
+                <div class="account-attribute">
+                    <span>비밀번호 확인</span>
+                    <input type="password" id="passwordCheck" placeholder="비밀번호를 한번 더 입력해주세요."/>
+                </div>
+                <div class="account-attribute">
+                    <span>닉네임</span>
+                    <div class="account-attribute-flex">
+                        <div class="nickname-box" id="nickname-box">
+                            <input type="text" id="nickname" placeholder="닉네임을 입력해주세요."/>
+                            <button>중복체크</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="account-attribute">
+                    <span>이름</span>
+                    <input type="text" id="name" placeholder="이름을 입력해주세요."/>
+                </div>
+                <div class="account-attribute">
+                    <span>성별</span>
+                    <div class="account-attribute-flex">
+                        <input type="radio" name="gender" id="genderMan" value="man" checked>
+                        <label for="genderMan">남자</label>
+                        <input type="radio" name="gender" id="genderWoman" value="woman">
+                        <label for="genderWoman">여자</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="account-function-area">
+            <a class="account-create-btn">회원가입</a>
+        </div>
+    </div>
+</body>
+
+<script src="/page/js/login/account_create.js"></script>
+</html>

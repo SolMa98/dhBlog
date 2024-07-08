@@ -9,4 +9,9 @@ public class LoginServiceImpl implements LoginService{
     public String loginPageOpen(HttpServletRequest request){
         return "/login/login";
     }
+
+    @Override
+    public String createAccountPageOpen(HttpServletRequest request){
+        return "/login/accountCreate";
+    }
 }

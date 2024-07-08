@@ -9,12 +9,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/login")
+@RequestMapping("/")
 public class LoginController {
     private final LoginService service;
 
-    @GetMapping()
+    @GetMapping("login")
     public String loginPageOpen(HttpServletRequest request){
         return service.loginPageOpen(request);
+    }
+
+    @GetMapping("account/create")
+    public String createAccountPageOpen(HttpServletRequest request){
+        return service.createAccountPageOpen(request);
     }
 }
