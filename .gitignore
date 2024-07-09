@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### blog upload img ###
+src/main/resources/static/upload/
