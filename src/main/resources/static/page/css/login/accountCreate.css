@@ -117,3 +117,8 @@ body{
     padding: 8px;
     font-size: 15px;
 }
+
+.account-nickname-message {
+    font-size: 11px !important;
+    color: red;
+}

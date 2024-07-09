@@ -53,7 +53,6 @@ public class PostServiceImpl implements PostService{
             post.setContent(postDto.getContent());
 
             Post savePost = postRepository.save(post);
-            System.out.println(savePost.getId());
 
             for (MultipartFile image : images) {
                 ImageUtils imageUtils = ImageUtils.saveImgFile(image);
