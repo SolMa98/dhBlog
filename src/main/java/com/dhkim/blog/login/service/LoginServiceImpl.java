@@ -50,7 +50,7 @@ public class LoginServiceImpl implements LoginService{
             account.setId(accountDto.getId());
             account.setPassword(accountDto.getPassword());
             account.setNickname(accountDto.getNickname());
-            account.setName(accountDto.getName());
+            account.setUsername(accountDto.getName());
             account.setGender(accountDto.getGender());
 
             accountRepository.save(account);

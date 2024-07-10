@@ -1,4 +1,4 @@
-let accountCreate = function (e) {
+let accountCreate = function () {
     let passId = "";
     let passIdBoolean = false;
 
@@ -8,23 +8,23 @@ let accountCreate = function (e) {
     let pageInit = () => {
         // 아이디 입력 칸 테두리 색 변경 이벤트
         let idBox = document.getElementById("id-box");
-        $(document).on("focus", ".nickname-box #id", function (e){
+        $(document).on("focus", ".nickname-box #id", function (){
             idBox.style.borderColor = "#0d6efd";
         });
-        $(document).on("blur", ".nickname-box #id", function (e){
+        $(document).on("blur", ".nickname-box #id", function (){
             idBox.style.borderColor = "";
         });
         // 닉네임 입력 칸 테두리 색 변경 이벤트
         let nicknameBox = document.getElementById("nickname-box");
-        $(document).on("focus", ".nickname-box #nickname", function (e){
+        $(document).on("focus", ".nickname-box #nickname", function (){
             nicknameBox.style.borderColor = "#0d6efd";
         });
-        $(document).on("blur", ".nickname-box #nickname", function (e){
+        $(document).on("blur", ".nickname-box #nickname", function (){
             nicknameBox.style.borderColor = "";
         });
 
         // 아이디 변경 시 중복 체크 메시지 활성화
-        $(document).on("change", "#id", function (e){
+        $(document).on("change", "#id", function (){
             if(passId === document.getElementById("id").value.trim()){
                 $("#idAlertMessage").text("");
                 passIdBoolean = true;
@@ -34,7 +34,7 @@ let accountCreate = function (e) {
             }
         });
         // 닉네임 변경 시 중복 체크 메시지 활성화
-        $(document).on("change", "#nickname", function (e){
+        $(document).on("change", "#nickname", function (){
             if(passName === document.getElementById("nickname").value.trim()){
                 $("#nicknameAlertMessage").text("");
                 passNameBoolean = true;
