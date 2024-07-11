@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,10 +16,12 @@ import java.util.Optional;
 public class LoginServiceImpl implements LoginService{
 
     private final AccountRepository accountRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public LoginServiceImpl(AccountRepository accountRepository){
+    public LoginServiceImpl(AccountRepository accountRepository, PasswordEncoder passwordEncoder){
         this.accountRepository = accountRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -48,7 +51,7 @@ public class LoginServiceImpl implements LoginService{
         try{
             Account account = new Account();
             account.setId(accountDto.getId());
-            account.setPassword(accountDto.getPassword());
+            account.setPassword(passwordEncoder.encode(accountDto.getPassword()));
             account.setNickname(accountDto.getNickname());
             account.setUsername(accountDto.getName());
             account.setGender(accountDto.getGender());
