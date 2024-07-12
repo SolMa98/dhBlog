@@ -1,12 +1,18 @@
 package com.dhkim.blog.login.service;
 
 import com.dhkim.blog.login.domain.Account;
+import com.dhkim.blog.login.domain.JwtToken;
 import com.dhkim.blog.login.dto.AccountDto;
+import com.dhkim.blog.login.jwt.JwtTokenProvider;
 import com.dhkim.blog.login.repository.AccountRepository;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +23,16 @@ public class LoginServiceImpl implements LoginService{
 
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    public LoginServiceImpl(AccountRepository accountRepository, PasswordEncoder passwordEncoder){
+    public LoginServiceImpl(AccountRepository accountRepository, PasswordEncoder passwordEncoder
+        ,AuthenticationManagerBuilder authenticationManagerBuilder, JwtTokenProvider jwtTokenProvider){
         this.accountRepository = accountRepository;
         this.passwordEncoder = passwordEncoder;
+        this.authenticationManagerBuilder = authenticationManagerBuilder;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Override
@@ -62,5 +73,14 @@ public class LoginServiceImpl implements LoginService{
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("failed");
         }
+    }
+
+    @Override
+    public JwtToken signIn(String id, String password){
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(id, password);
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
+        JwtToken jwtToken = jwtTokenProvider.generateToken(authentication);
+        return jwtToken;
     }
 }

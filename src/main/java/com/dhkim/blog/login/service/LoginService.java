@@ -1,5 +1,6 @@
 package com.dhkim.blog.login.service;
 
+import com.dhkim.blog.login.domain.JwtToken;
 import com.dhkim.blog.login.dto.AccountDto;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
@@ -39,4 +40,6 @@ public interface LoginService {
      * @return 생성 결과
      */
     public ResponseEntity<String> saveAccount(HttpServletRequest request, AccountDto accountDto);
+
+    public JwtToken signIn(String id, String password);
 }

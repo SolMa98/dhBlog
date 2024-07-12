@@ -2,18 +2,20 @@ package com.dhkim.blog.config;
 
 import com.dhkim.blog.login.jwt.JwtAuthenticationFilter;
 import com.dhkim.blog.login.jwt.JwtTokenProvider;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.AnyRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -24,15 +26,31 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable);
-        http
-                .authorizeRequests()
+                .formLogin(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorizeRequest ->
+                        authorizeRequest
+                                .requestMatchers(
+                                        AntPathRequestMatcher.antMatcher("/ajax/sign-in")
+                                ).permitAll()
+                                .anyRequest().authenticated()
+                ).addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
+                        UsernamePasswordAuthenticationFilter.class)
+                .headers(
+                        headersConfigurer ->
+                                headersConfigurer
+                                        .frameOptions(
+                                                HeadersConfigurer.FrameOptionsConfig::sameOrigin
+                                        )
+                );
+                /*.authorizeRequests()
+                .requestMatchers("/ajax/sign-in").permitAll()
                 // .requestMatchers("/**").permitAll()
-                // .anyRequest().authenticated()// 요청에 인증 필요
-                .anyRequest().permitAll() // 모든 요청 인증 X
+                .anyRequest().authenticated()// 요청에 인증 필요
+                // .anyRequest().permitAll() // 모든 요청 인증 X
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-                        UsernamePasswordAuthenticationFilter.class);
+                        UsernamePasswordAuthenticationFilter.class);*/
 
         return http.build();
     }

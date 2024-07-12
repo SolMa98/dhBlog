@@ -36,22 +36,22 @@ public class JwtTokenProvider {
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
-
         long now = (new Date()).getTime();
 
         Date accessTokenExpiresIn = new Date(now + 86400000);
+
         // access 토큰 생성
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim("auth", authorities)
                 .setExpiration(accessTokenExpiresIn)
-                .signWith(key, SignatureAlgorithm.ES256)
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
         // refresh 토큰 생성
         String refreshToken = Jwts.builder()
                 .setExpiration(new Date(now + 86400000))
-                .signWith(key, SignatureAlgorithm.ES256)
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
         return JwtToken.builder()
