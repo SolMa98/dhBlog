@@ -41,9 +41,6 @@ public class LoginAjaxController {
         log.info("request username = {}, password = {}", singIn.getId(), singIn.getPassword());
         log.info("jwtToken accessToken = {}, refreshToken = {}", jwtToken.getAccessToken(), jwtToken.getRefreshToken());
 
-        System.out.printf("request username = %s, password = %s\n", singIn.getId(), singIn.getPassword());
-        System.out.printf("jwtToken accessToken = %s, refreshToken = %s\n", jwtToken.getAccessToken(), jwtToken.getRefreshToken());
-
         return jwtToken;
     }
 }

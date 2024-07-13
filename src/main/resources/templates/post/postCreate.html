@@ -1,63 +1,63 @@
 <!DOCTYPE html>
 <html lang="ko">
-<body>
 <div th:replace="~{fragment/layout.html :: layoutFragment}"></div>
-<link rel="stylesheet" href="/page/css/post/postCreate.css">
 
-<div class="container px-4 px-lg-5">
-    <div class="row gx-4 gx-lg-5 justify-content-center">
-        <div class="col-md-10 col-lg-8 col-xl-7">
-            <p>블로그 게시글을 작성해주세요</p>
-            <div class="my-5">
-                <form id="contactForm" data-sb-form-api-token="API_TOKEN">
-                    <div class="form-floating">
-                        <input type="hidden">
-                        <input class="form-control is-fixed" id="title" type="title" placeholder="제목을 입력해주세요" data-sb-validations="required, title" data-sb-can-submit="no">
-                        <label for="title">제목</label>
-                        <!--<div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>-->
-                    </div>
+<body>
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <p>블로그 게시글을 작성해주세요</p>
+                <div class="my-5">
+                    <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+                        <div class="form-floating">
+                            <input type="hidden">
+                            <input class="form-control is-fixed" id="title" type="title" placeholder="제목을 입력해주세요" data-sb-validations="required, title" data-sb-can-submit="no">
+                            <label for="title">제목</label>
+                            <!--<div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>-->
+                        </div>
 
-                    <div class="form-floating">
-                        <input type="hidden">
-                        <input class="form-control is-fixed" id="name" type="text" data-sb-validations="required" data-sb-can-submit="yes">
-                        <label for="name">작성자</label>
-                        <!--<div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>-->
-                    </div>
+                        <div class="form-floating">
+                            <input type="hidden">
+                            <input class="form-control is-fixed" id="name" type="text" data-sb-validations="required" data-sb-can-submit="yes">
+                            <label for="name">작성자</label>
+                            <!--<div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>-->
+                        </div>
 
-                    <div class="form-floating">
-                        <input type="hidden">
-                        <textarea class="form-control is-fixed" id="content" placeholder="내용을 입력해주세요" style="height: 12rem" data-sb-validations="required, content" data-sb-can-submit="no"></textarea>
-                        <label for="content">내용</label>
-                        <!--<div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>-->
-                    </div>
-                    <br>
+                        <div class="form-floating">
+                            <input type="hidden">
+                            <textarea class="form-control is-fixed" id="content" placeholder="내용을 입력해주세요" style="height: 12rem" data-sb-validations="required, content" data-sb-can-submit="no"></textarea>
+                            <label for="content">내용</label>
+                            <!--<div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>-->
+                        </div>
+                        <br>
 
-                    <div class="img-area">
-                        <div class="img-title-area">
-                            <label for="content">이미지</label>
-                            <label class="img-tooltip" for="content" data-tooltip="내용에 이미지 개수만큼 '[이미지 출력]'을 입력해주세요. 이미지 등록 순서에 따라서 출력됩니다.">?</label>
-                            <div>
-                                <input class="d-none" type="file" id="imgUpload" accept="image/*">
-                                <a class="img-input-btn" id="imgUploadBtn">이미지 등록</a>
+                        <div class="img-area">
+                            <div class="img-title-area">
+                                <label for="content">이미지</label>
+                                <label class="img-tooltip" for="content" data-tooltip="내용에 이미지 개수만큼 '[이미지 출력]'을 입력해주세요. 이미지 등록 순서에 따라서 출력됩니다.">?</label>
+                                <div>
+                                    <input class="d-none" type="file" id="imgUpload" accept="image/*">
+                                    <a class="img-input-btn" id="imgUploadBtn">이미지 등록</a>
+                                </div>
+                            </div>
+                            <div class="img-viewer" id="imgViewer">
+                                <label>등록된 이미지가 없습니다.</label>
                             </div>
                         </div>
-                        <div class="img-viewer" id="imgViewer">
-                            <label>등록된 이미지가 없습니다.</label>
+
+                        <br>
+
+                        <!-- Submit Button-->
+                        <div class="create-btn-area">
+                            <button class="btn btn-primary text-uppercase create-btn disabled" id="createBtn" type="button"
+                            onclick="postCreate.handleCreateBtnClick()">작성</button>
                         </div>
-                    </div>
-
-                    <br>
-
-                    <!-- Submit Button-->
-                    <div class="create-btn-area">
-                        <button class="btn btn-primary text-uppercase create-btn disabled" id="createBtn" type="button"
-                        onclick="postCreate.handleCreateBtnClick()">작성</button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </body>
+<link rel="stylesheet" href="/page/css/post/postCreate.css">
 <script src="/page/js/post/post_create.js"></script>
 </html>

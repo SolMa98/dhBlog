@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko" th:fragment="layoutFragment">
     <head>
-        <title>나만의 블로그</title>
+        <title>DHBLOG</title>
+        <link rel="icon" th:href="@{/templates/favicon.ico}" />
         <link rel="stylesheet" href="/templates/css/template.css">
         <link rel="stylesheet" th:href="@{/page/css/layout.css}"/>
 
@@ -15,5 +16,4 @@
         <div th:replace="~{fragment/header.html :: headFragment}"></div>
         <div th:replace="~{fragment/footer.html :: footerFragment}"></div>
     </body>
-
 </html>

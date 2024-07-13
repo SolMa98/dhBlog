@@ -2,6 +2,8 @@
 <html lang="ko" class="login-form">
 <head>
     <link rel="stylesheet" th:href="@{/page/css/login/login.css}"/>
+    <link rel="icon" th:href="@{/templates/favicon.ico}" />
+    <title>DHBLOG 로그인</title>
 </head>
 <body>
     <div class="login-title-area">
@@ -21,7 +23,7 @@
     <div class="login-function-area">
         <a>아이디 찾기</a>
         <a>비밀번호 찾기</a>
-        <a>회원가입</a>
+        <a th:href="@{/account/create}">회원가입</a>
     </div>
 </body>
 

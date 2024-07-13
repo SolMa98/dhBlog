@@ -33,6 +33,38 @@ public class SecurityConfig {
                                 .requestMatchers(
                                         AntPathRequestMatcher.antMatcher("/ajax/sign-in")
                                 ).permitAll()
+                                // 회원 가입 관련 Ajax 호출 API
+                                .requestMatchers(
+                                        AntPathRequestMatcher.antMatcher("/ajax/account/**")
+                                ).permitAll()
+                                // 포스트 페이지
+                                .requestMatchers(
+                                        AntPathRequestMatcher.antMatcher("/post/**")
+                                ).permitAll()
+                                // 로그인 페이지
+                                .requestMatchers(
+                                        AntPathRequestMatcher.antMatcher("/login/**")
+                                ).permitAll()
+                                // 회원가입 페이지
+                                .requestMatchers(
+                                        AntPathRequestMatcher.antMatcher("/account/**")
+                                ).permitAll()
+                                // 템플릿 정보 가져 올 수 있도록 허용
+                                .requestMatchers(
+                                        AntPathRequestMatcher.antMatcher("/templates/**")
+                                ).permitAll()
+                                // page 정보 가져 올 수 있도록 허용
+                                .requestMatchers(
+                                        AntPathRequestMatcher.antMatcher("/page/**")
+                                ).permitAll()
+                                // 블로그 업로드 이미지 가져 올 수 있도록 허용
+                                .requestMatchers(
+                                        AntPathRequestMatcher.antMatcher("/upload/**")
+                                ).permitAll()
+                                // favicon
+                                .requestMatchers(
+                                        AntPathRequestMatcher.antMatcher("/favicon.ico")
+                                ).permitAll()
                                 .anyRequest().authenticated()
                 ).addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class)
@@ -43,14 +75,6 @@ public class SecurityConfig {
                                                 HeadersConfigurer.FrameOptionsConfig::sameOrigin
                                         )
                 );
-                /*.authorizeRequests()
-                .requestMatchers("/ajax/sign-in").permitAll()
-                // .requestMatchers("/**").permitAll()
-                .anyRequest().authenticated()// 요청에 인증 필요
-                // .anyRequest().permitAll() // 모든 요청 인증 X
-                .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-                        UsernamePasswordAuthenticationFilter.class);*/
 
         return http.build();
     }
