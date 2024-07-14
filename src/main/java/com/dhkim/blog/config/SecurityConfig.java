@@ -30,6 +30,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequest ->
                         authorizeRequest
+                                // 로그인 API
                                 .requestMatchers(
                                         AntPathRequestMatcher.antMatcher("/ajax/sign-in")
                                 ).permitAll()

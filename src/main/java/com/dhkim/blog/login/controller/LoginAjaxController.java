@@ -35,12 +35,7 @@ public class LoginAjaxController {
     }
 
     @PostMapping("/ajax/sign-in")
-    public JwtToken signIn(@RequestBody SingInDto singIn){
-        JwtToken jwtToken = service.signIn(singIn.getId(), singIn.getPassword());
-
-        log.info("request username = {}, password = {}", singIn.getId(), singIn.getPassword());
-        log.info("jwtToken accessToken = {}, refreshToken = {}", jwtToken.getAccessToken(), jwtToken.getRefreshToken());
-
-        return jwtToken;
+    public String signIn(@RequestBody SingInDto singIn){
+        return service.signIn(singIn.getId(), singIn.getPassword());
     }
 }

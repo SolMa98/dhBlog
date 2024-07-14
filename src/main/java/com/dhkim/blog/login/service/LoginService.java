@@ -41,5 +41,5 @@ public interface LoginService {
      */
     public ResponseEntity<String> saveAccount(HttpServletRequest request, AccountDto accountDto);
 
-    public JwtToken signIn(String id, String password);
+    public String signIn(String id, String password);
 }

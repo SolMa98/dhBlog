@@ -2,9 +2,11 @@ package com.dhkim.blog.login.service;
 
 import com.dhkim.blog.login.domain.Account;
 import com.dhkim.blog.login.domain.JwtToken;
+import com.dhkim.blog.login.domain.Token;
 import com.dhkim.blog.login.dto.AccountDto;
 import com.dhkim.blog.login.jwt.JwtTokenProvider;
 import com.dhkim.blog.login.repository.AccountRepository;
+import com.dhkim.blog.login.repository.TokenRepository;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +24,19 @@ import java.util.Optional;
 public class LoginServiceImpl implements LoginService{
 
     private final AccountRepository accountRepository;
+    private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    public LoginServiceImpl(AccountRepository accountRepository, PasswordEncoder passwordEncoder
-        ,AuthenticationManagerBuilder authenticationManagerBuilder, JwtTokenProvider jwtTokenProvider){
+    public LoginServiceImpl(AccountRepository accountRepository,
+                            TokenRepository tokenRepository,
+                            PasswordEncoder passwordEncoder,
+                            AuthenticationManagerBuilder authenticationManagerBuilder,
+                            JwtTokenProvider jwtTokenProvider){
         this.accountRepository = accountRepository;
+        this.tokenRepository = tokenRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.jwtTokenProvider = jwtTokenProvider;
@@ -76,11 +83,33 @@ public class LoginServiceImpl implements LoginService{
     }
 
     @Override
-    public JwtToken signIn(String id, String password){
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(id, password);
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+    public String signIn(String id, String password){
+        try {
+            // 토큰 검사
+            if (tokenRepository.findById(id).isPresent()) {
+                tokenRepository.deleteById(id);
+            }
 
-        JwtToken jwtToken = jwtTokenProvider.generateToken(authentication);
-        return jwtToken;
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(id, password);
+            Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+            JwtToken jwtToken = jwtTokenProvider.generateToken(authentication);
+
+            Token loginInfo = new Token();
+            Optional<Account> accountOptional = accountRepository.findById(id);
+
+            accountOptional.ifPresent(account -> {
+                loginInfo.setId(account.getId());
+                loginInfo.setNickname(account.getNickname());
+            });
+
+            loginInfo.setAccessToken(jwtToken.getAccessToken());
+            loginInfo.setRefreshToken(jwtToken.getRefreshToken());
+
+            tokenRepository.save(loginInfo);
+
+            return "success";
+        }catch (Exception e){
+            return "failed";
+        }
     }
 }

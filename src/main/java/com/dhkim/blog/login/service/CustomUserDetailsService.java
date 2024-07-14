@@ -23,8 +23,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("username= " + username);
-        System.out.println(accountRepository.findById(username));
         return accountRepository.findById(username)
                 .map(this::createUserDetails)
                 .orElseThrow(()-> new UsernameNotFoundException("유저 정보를 찾을 수 없습니다."));
