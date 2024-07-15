@@ -1,15 +1,12 @@
 package com.dhkim.blog.login.controller;
 
-import com.dhkim.blog.login.domain.JwtToken;
 import com.dhkim.blog.login.dto.AccountDto;
 import com.dhkim.blog.login.dto.SingInDto;
-import com.dhkim.blog.login.jwt.JwtTokenProvider;
 import com.dhkim.blog.login.service.LoginService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -35,7 +32,12 @@ public class LoginAjaxController {
     }
 
     @PostMapping("/ajax/sign-in")
-    public String signIn(@RequestBody SingInDto singIn){
-        return service.signIn(singIn.getId(), singIn.getPassword());
+    public String signIn(HttpServletRequest request, @RequestBody SingInDto singIn){
+        return service.signIn(request, singIn.getId(), singIn.getPassword());
+    }
+
+    @PostMapping("/ajax/token/check")
+    public Boolean tokenCheck(HttpServletRequest request){
+        return service.jwtTokenValidation(request);
     }
 }

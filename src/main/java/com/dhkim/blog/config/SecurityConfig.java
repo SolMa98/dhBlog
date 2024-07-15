@@ -9,13 +9,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.AnyRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -33,6 +31,10 @@ public class SecurityConfig {
                                 // 로그인 API
                                 .requestMatchers(
                                         AntPathRequestMatcher.antMatcher("/ajax/sign-in")
+                                ).permitAll()
+                                // Token check
+                                .requestMatchers(
+                                        AntPathRequestMatcher.antMatcher("/ajax/token/check")
                                 ).permitAll()
                                 // 회원 가입 관련 Ajax 호출 API
                                 .requestMatchers(
@@ -66,6 +68,10 @@ public class SecurityConfig {
                                 .requestMatchers(
                                         AntPathRequestMatcher.antMatcher("/favicon.ico")
                                 ).permitAll()
+                                // post 관련 권한 설정
+                                .requestMatchers(
+                                        AntPathRequestMatcher.antMatcher("/ajax/post/**")
+                                ).hasRole("USER")
                                 .anyRequest().authenticated()
                 ).addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class)

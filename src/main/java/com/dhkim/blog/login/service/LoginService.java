@@ -41,5 +41,13 @@ public interface LoginService {
      */
     public ResponseEntity<String> saveAccount(HttpServletRequest request, AccountDto accountDto);
 
-    public String signIn(String id, String password);
+    /**
+     * 로그인
+     * @param id 아이디
+     * @param password 비밀번호
+     * @return 로그인 성공 여부
+     */
+    public String signIn(HttpServletRequest request, String id, String password);
+
+    public Boolean jwtTokenValidation(HttpServletRequest request);
 }

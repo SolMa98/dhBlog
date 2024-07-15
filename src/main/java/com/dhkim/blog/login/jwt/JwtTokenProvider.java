@@ -5,6 +5,7 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,7 +39,8 @@ public class JwtTokenProvider {
                 .collect(Collectors.joining(","));
         long now = (new Date()).getTime();
 
-        Date accessTokenExpiresIn = new Date(now + 86400000);
+        // Date accessTokenExpiresIn = new Date(now + 86400000);
+        Date accessTokenExpiresIn = new Date(now + 60000);
 
         // access 토큰 생성
         String accessToken = Jwts.builder()
@@ -50,7 +52,7 @@ public class JwtTokenProvider {
 
         // refresh 토큰 생성
         String refreshToken = Jwts.builder()
-                .setExpiration(new Date(now + 86400000))
+                .setExpiration(new Date(now + 600000))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
@@ -96,6 +98,32 @@ public class JwtTokenProvider {
             log.info("JWT claims string is empty.", e);
         }
         return false;
+    }
+
+    public String validateRefreshToken(String refreshToken){
+        try {
+            Jws<Claims> claims = Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(refreshToken);
+            if(!claims.getBody().getExpiration().before(new Date())){
+                String subject = claims.getBody().getSubject();
+                Claims newClaims = Jwts.claims().setSubject(subject);
+                Date nowDate = new Date();
+
+                String accessToken = Jwts.builder()
+                        .setClaims(newClaims)
+                        .setIssuedAt(nowDate)
+                        .setExpiration(new Date(nowDate.getTime() + 60000))
+                        .signWith(key, SignatureAlgorithm.HS256)
+                        .compact();
+
+                return accessToken;
+            }
+        }catch (Exception e){
+            return null;
+        }
+        return null;
     }
 
     private Claims parseClaims(String accessToken) {

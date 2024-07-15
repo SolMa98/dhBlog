@@ -137,6 +137,9 @@ let postCreate = function (e) {
 
         $.ajax({
             url: ctx + "/ajax/post/create",
+            header : {
+              "Authorization" : "Bearer "
+            },
             data: imgFormData,
             method: "POST",
             processData: false,

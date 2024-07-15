@@ -7,8 +7,8 @@ import com.dhkim.blog.login.dto.AccountDto;
 import com.dhkim.blog.login.jwt.JwtTokenProvider;
 import com.dhkim.blog.login.repository.AccountRepository;
 import com.dhkim.blog.login.repository.TokenRepository;
-import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +18,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -73,6 +75,9 @@ public class LoginServiceImpl implements LoginService{
             account.setNickname(accountDto.getNickname());
             account.setUsername(accountDto.getName());
             account.setGender(accountDto.getGender());
+            List<String> roles = new ArrayList<>();
+            roles.add("USER");
+            account.setRoles(roles);
 
             accountRepository.save(account);
 
@@ -83,7 +88,7 @@ public class LoginServiceImpl implements LoginService{
     }
 
     @Override
-    public String signIn(String id, String password){
+    public String signIn(HttpServletRequest request, String id, String password){
         try {
             // 토큰 검사
             if (tokenRepository.findById(id).isPresent()) {
@@ -105,11 +110,43 @@ public class LoginServiceImpl implements LoginService{
             loginInfo.setAccessToken(jwtToken.getAccessToken());
             loginInfo.setRefreshToken(jwtToken.getRefreshToken());
 
-            tokenRepository.save(loginInfo);
+            HttpSession session = request.getSession();
+            session.setAttribute("userId", id);
 
+            tokenRepository.save(loginInfo);
             return "success";
         }catch (Exception e){
+            e.printStackTrace();
             return "failed";
         }
+    }
+
+    @Override
+    public Boolean jwtTokenValidation(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Object userIdObj = session.getAttribute("userId");
+
+        if (userIdObj != null) {
+            Optional<Token> tokenOptional = tokenRepository.findById(userIdObj.toString());
+            if(tokenOptional.isPresent()){
+                Token loginUserToken = tokenOptional.get();
+                if(!jwtTokenProvider.validateToken(loginUserToken.getAccessToken())){
+                    String newAccessToken = jwtTokenProvider.validateRefreshToken(loginUserToken.getRefreshToken());
+                    if(newAccessToken != null){
+                        tokenRepository.updateAccessTokenById(loginUserToken.getId(), newAccessToken);
+                        System.out.println("액세스 토큰 업데이트");
+                        return true;
+                    }else{
+                        System.out.println("리프레쉬 토큰까지 만료 로그아웃 처리");
+                        return false;
+                    }
+                }else{
+                    System.out.println("액세스 토큰 만료되지 않음");
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
