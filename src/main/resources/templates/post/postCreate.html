@@ -18,7 +18,7 @@
 
                         <div class="form-floating">
                             <input type="hidden">
-                            <input class="form-control is-fixed" id="name" type="text" data-sb-validations="required" data-sb-can-submit="yes">
+                            <input class="form-control is-fixed" id="name" type="text" data-sb-validations="required" data-sb-can-submit="yes" th:value="${user_nickname}" disabled>
                             <label for="name">작성자</label>
                             <!--<div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>-->
                         </div>
@@ -60,4 +60,7 @@
 </body>
 <link rel="stylesheet" href="/page/css/post/postCreate.css">
 <script src="/page/js/post/post_create.js"></script>
+<script th:inline="javascript">
+    let token = /*[[${token}]]*/ {};
+</script>
 </html>

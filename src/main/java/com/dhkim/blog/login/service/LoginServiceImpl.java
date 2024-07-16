@@ -9,6 +9,7 @@ import com.dhkim.blog.login.repository.AccountRepository;
 import com.dhkim.blog.login.repository.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class LoginServiceImpl implements LoginService{
 
     private final AccountRepository accountRepository;
@@ -46,12 +48,26 @@ public class LoginServiceImpl implements LoginService{
 
     @Override
     public String loginPageOpen(HttpServletRequest request){
-        return "/login/login";
+        HttpSession session = request.getSession();
+        String userId = (String) session.getAttribute("userId");
+
+        if (userId != null && !userId.isEmpty()) {
+            return "redirect:/post/list";
+        }else{
+            return "/login/login";
+        }
     }
 
     @Override
     public String createAccountPageOpen(HttpServletRequest request){
-        return "/login/accountCreate";
+        HttpSession session = request.getSession();
+        String userId = (String) session.getAttribute("userId");
+
+        if (userId != null && !userId.isEmpty()) {
+            return "redirect:/post/list";
+        }else{
+            return "/login/accountCreate";
+        }
     }
 
     @Override
@@ -112,6 +128,8 @@ public class LoginServiceImpl implements LoginService{
 
             HttpSession session = request.getSession();
             session.setAttribute("userId", id);
+            session.setAttribute("userNickname", loginInfo.getNickname());
+            session.setAttribute("accessToken", jwtToken.getAccessToken());
 
             tokenRepository.save(loginInfo);
             return "success";
@@ -122,28 +140,51 @@ public class LoginServiceImpl implements LoginService{
     }
 
     @Override
+    public String logout(HttpServletRequest request){
+        try{
+            HttpSession session = request.getSession();
+            Object userIdObj = session.getAttribute("userId");
+            tokenRepository.deleteById(userIdObj.toString());
+
+            session.removeAttribute("userId");
+            session.removeAttribute("userNickname");
+            session.removeAttribute("accessToken");
+            return "success";
+        }catch (Exception e){
+            return "failed";
+        }
+    }
+
+    @Override
     public Boolean jwtTokenValidation(HttpServletRequest request){
         HttpSession session = request.getSession();
         Object userIdObj = session.getAttribute("userId");
+        Object userAccessToken = session.getAttribute("accessToken");
 
         if (userIdObj != null) {
-            Optional<Token> tokenOptional = tokenRepository.findById(userIdObj.toString());
-            if(tokenOptional.isPresent()){
-                Token loginUserToken = tokenOptional.get();
-                if(!jwtTokenProvider.validateToken(loginUserToken.getAccessToken())){
+            if(!jwtTokenProvider.validateToken(userAccessToken.toString())) {
+                Optional<Token> tokenOptional = tokenRepository.findById(userIdObj.toString());
+                if(tokenOptional.isPresent()){
+                    Token loginUserToken = tokenOptional.get();
                     String newAccessToken = jwtTokenProvider.validateRefreshToken(loginUserToken.getRefreshToken());
                     if(newAccessToken != null){
                         tokenRepository.updateAccessTokenById(loginUserToken.getId(), newAccessToken);
-                        System.out.println("액세스 토큰 업데이트");
+                        session.setAttribute("accessToken", newAccessToken);
+                        log.info("Access token UPDATE USER_ID: {}, new AccessToken: {}", loginUserToken.getId(), newAccessToken);
                         return true;
                     }else{
-                        System.out.println("리프레쉬 토큰까지 만료 로그아웃 처리");
+                        tokenRepository.deleteById(userIdObj.toString());
+                        session.removeAttribute("userId");
+                        session.removeAttribute("userNickname");
+                        session.removeAttribute("accessToken");
+
+                        log.info("Refresh token expired, logout USER_ID: {}", loginUserToken.getId());
                         return false;
                     }
-                }else{
-                    System.out.println("액세스 토큰 만료되지 않음");
-                    return true;
                 }
+            }else {
+                log.info("Access token is not expired USER_ID: {}", userIdObj.toString());
+                return true;
             }
         }
 

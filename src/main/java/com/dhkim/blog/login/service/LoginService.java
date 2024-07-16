@@ -49,5 +49,18 @@ public interface LoginService {
      */
     public String signIn(HttpServletRequest request, String id, String password);
 
+    /**
+     * 로그아웃
+     * @param request 세션 정보를 위해서 가져옴
+     * @return 로그아웃 성공 여부
+     */
+    public String logout(HttpServletRequest request);
+
+
+    /**
+     * JWT Token 유효성 체크 후 새로운 토큰 발급 or 로그아웃 처리
+     * @param request
+     * @return 결과
+     */
     public Boolean jwtTokenValidation(HttpServletRequest request);
 }

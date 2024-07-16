@@ -36,8 +36,6 @@ let postCreate = function (e) {
 
         // 내용 유효성 검사
         if( typeof type === "undefined" || type === "content"){
-            console.log(countOccurrences(content.value, "[이미지 출력]"))
-            console.log(Object.keys(imgList).length)
             let contentValidation = (content.value.trim() === "")
                 || (countOccurrences(content.value, "[이미지 출력]") !== Object.keys(imgList).length)
                 ? "is-invalid" : "is-valid";
@@ -129,7 +127,7 @@ let postCreate = function (e) {
         let imgFormData = new FormData();
         imgFormData.append('title', document.getElementById("title").value.trim());
         imgFormData.append('content', document.getElementById("content").value.trim());
-        imgFormData.append('writer', "테스터");
+        imgFormData.append('writer', document.getElementById("name").value.trim());
 
         Object.keys(imgList).forEach(function(key) {
             imgFormData.append('images', imgList[key]);
@@ -137,8 +135,8 @@ let postCreate = function (e) {
 
         $.ajax({
             url: ctx + "/ajax/post/create",
-            header : {
-              "Authorization" : "Bearer "
+            headers : {
+              "Authorization" : "Bearer " + token
             },
             data: imgFormData,
             method: "POST",

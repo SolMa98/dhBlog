@@ -17,7 +17,6 @@ public class PostAjaxController {
     public String postCreate(PostDto postDto, List<MultipartFile> images){
         try{
             service.savePost(postDto, images);
-            System.out.println(images);
             return "success";
         }catch (Exception e){
             return "error";

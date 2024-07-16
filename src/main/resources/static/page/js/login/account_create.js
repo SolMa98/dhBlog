@@ -192,5 +192,5 @@ let accountCreate = function () {
 
 $(function() {
     accountCreate.init();
-})
+});
 

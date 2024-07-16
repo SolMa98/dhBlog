@@ -32,9 +32,9 @@ public class SecurityConfig {
                                 .requestMatchers(
                                         AntPathRequestMatcher.antMatcher("/ajax/sign-in")
                                 ).permitAll()
-                                // Token check
+                                // 로그아웃
                                 .requestMatchers(
-                                        AntPathRequestMatcher.antMatcher("/ajax/token/check")
+                                        AntPathRequestMatcher.antMatcher("/ajax/logout")
                                 ).permitAll()
                                 // 회원 가입 관련 Ajax 호출 API
                                 .requestMatchers(

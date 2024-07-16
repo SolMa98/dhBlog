@@ -32,12 +32,12 @@ public class LoginAjaxController {
     }
 
     @PostMapping("/ajax/sign-in")
-    public String signIn(HttpServletRequest request, @RequestBody SingInDto singIn){
+    public String signIn(HttpServletRequest request, SingInDto singIn){
         return service.signIn(request, singIn.getId(), singIn.getPassword());
     }
 
-    @PostMapping("/ajax/token/check")
-    public Boolean tokenCheck(HttpServletRequest request){
-        return service.jwtTokenValidation(request);
+    @PostMapping("/ajax/logout")
+    public String logout(HttpServletRequest request){
+        return service.logout(request);
     }
 }

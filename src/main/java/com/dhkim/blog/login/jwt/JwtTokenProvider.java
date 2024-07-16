@@ -39,8 +39,10 @@ public class JwtTokenProvider {
                 .collect(Collectors.joining(","));
         long now = (new Date()).getTime();
 
-        // Date accessTokenExpiresIn = new Date(now + 86400000);
-        Date accessTokenExpiresIn = new Date(now + 60000);
+        // accessToken 만료 시간 (30분 후)
+        Date accessTokenExpiresIn = new Date(now + 30 * 60 * 1000);
+        // refresh token 만료 시간 (24시간 후)
+        Date refreshTokenExpiresIn = new Date(now + 24 * 60 * 60 * 1000);
 
         // access 토큰 생성
         String accessToken = Jwts.builder()
@@ -52,7 +54,7 @@ public class JwtTokenProvider {
 
         // refresh 토큰 생성
         String refreshToken = Jwts.builder()
-                .setExpiration(new Date(now + 600000))
+                .setExpiration(refreshTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 

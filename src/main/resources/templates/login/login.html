@@ -3,6 +3,10 @@
 <head>
     <link rel="stylesheet" th:href="@{/page/css/login/login.css}"/>
     <link rel="icon" th:href="@{/templates/favicon.ico}" />
+
+    <script src="/templates/js/jquery-3.7.1.min.js"></script>
+    <script src="/page/js/login/login_page.js"></script>
+
     <title>DHBLOG 로그인</title>
 </head>
 <body>
@@ -16,7 +20,7 @@
         </div>
 
         <div>
-            <button class="login-button">로그인</button>
+            <button class="login-button" onclick="loginPage.handleLoginBtnClick()">로그인</button>
         </div>
     </div>
 

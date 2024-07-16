@@ -1,13 +1,17 @@
 package com.dhkim.blog.post.service;
 
+import com.dhkim.blog.login.service.LoginService;
 import com.dhkim.blog.post.domain.Image;
 import com.dhkim.blog.post.domain.Post;
 import com.dhkim.blog.post.dto.PostDto;
 import com.dhkim.blog.post.repository.ImageRepository;
 import com.dhkim.blog.post.repository.PostRepository;
 import com.dhkim.blog.util.ImageUtils;
+import com.dhkim.blog.util.PageUtils;
 import com.dhkim.blog.util.PaginationUtils;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import jakarta.websocket.Session;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,11 +30,13 @@ import java.util.List;
 public class PostServiceImpl implements PostService{
     private final PostRepository postRepository;
     private final ImageRepository imageRepository;
+    private final LoginService loginService;
 
     @Autowired
-    public PostServiceImpl(PostRepository postRepository, ImageRepository imageRepository){
+    public PostServiceImpl(PostRepository postRepository, ImageRepository imageRepository, LoginService loginService){
         this.postRepository = postRepository;
         this.imageRepository = imageRepository;
+        this.loginService = loginService;
     }
 
     @Override
@@ -80,6 +86,7 @@ public class PostServiceImpl implements PostService{
 
         request.setAttribute("data", postData);
         request.setAttribute("page", pagination);
+        PageUtils.pageHeaderTabSetting(request, loginService.jwtTokenValidation(request));
 
         return "/post/postListPage";
     }
@@ -88,10 +95,23 @@ public class PostServiceImpl implements PostService{
     public String postPageOpen(HttpServletRequest request, String id){
         Post data = getPostById(id);
         request.setAttribute("post", data);
+        PageUtils.pageHeaderTabSetting(request, loginService.jwtTokenValidation(request));
 
         return "/post/postPage";
     }
 
     @Override
-    public String postCUPageOpen(HttpServletRequest request, String id) { return "/post/postCreate"; }
+    public String postCUPageOpen(HttpServletRequest request, String id) {
+        HttpSession session = request.getSession();
+        String userId = (String) session.getAttribute("userId");
+
+        if (userId == null || userId.isEmpty()) {
+            return "redirect:/post/list";
+        }else{
+            PageUtils.pageHeaderTabSetting(request, loginService.jwtTokenValidation(request));
+            request.setAttribute("token", session.getAttribute("accessToken"));
+
+            return "/post/postCreate";
+        }
+    }
 }
