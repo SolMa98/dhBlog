@@ -24,7 +24,7 @@ public class PostController {
         return service.postPageOpen(request, id);
     }
 
-    @GetMapping("/create")
+    @GetMapping("/cu")
     public String postCreatePage(HttpServletRequest request, String id) {
         return service.postCUPageOpen(request, id);
     }

@@ -12,5 +12,6 @@ public class PostDto {
     private String content;
     private String writer;
     private int page = 0;
+    private List<String> deleteImages;
     private List<Image> postImages;
 }

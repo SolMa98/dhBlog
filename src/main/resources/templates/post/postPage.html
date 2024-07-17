@@ -7,14 +7,22 @@
             <div class="col-md-10 col-lg-8 col-xl-7" id="postContent">
                 <p class="post-content">준비 중 입니다. 잠시만 기다려 주세요.</p>
             </div>
+            <th:block th:if="${postAuthorityBtn == 'ok'}">
+                <div class="post-function-btn-area">
+                    <button onclick="postPage.handleUpdateBtnClick()">수정</button>
+                    <button onclick="postPage.handleDeleteBtnClick()">삭제</button>
+                </div>
+            </th:block>
         </div>
     </div>
 </body>
 
 <link rel="stylesheet" th:href="@{/page/css/post/postPage.css}"/>
 <script th:inline="javascript">
-    let postData = /*[[${post}]]*/ {};
-    console.log(postData);
+    let postId = /*[[${post.id}]]*/ {};
+    let content = /*[[${post.content}]]*/ {};
+    let images = /*[[${post.postImages}]]*/ {};
+    let token = /*[[${token}]]*/ {};
 </script>
 <script src="/page/js/post/post_page.js"></script>
 </html>

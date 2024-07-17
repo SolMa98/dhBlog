@@ -29,7 +29,9 @@ public interface PostService {
      * @param postDto
      * @return 성공 or 실패 여부
      */
-    public ResponseEntity<String> savePost(PostDto postDto, List<MultipartFile> images);
+    public String savePost(PostDto postDto, List<MultipartFile> images);
+
+    public String updatePost(PostDto postDto, List<MultipartFile> images);
 
     /**
      * 블로그 글 리스트 페이지
@@ -53,4 +55,6 @@ public interface PostService {
      * @return
      */
     public String postCUPageOpen(HttpServletRequest request, String id);
+
+    public String postDelete(HttpServletRequest request, String id);
 }

@@ -7,3 +7,26 @@
     max-height: 694px;
     object-fit: cover;
 }
+
+.post-function-btn-area {
+    flex: 0 0 auto;
+    width: 58.33333333%;
+    justify-content: end;
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.post-function-btn-area button{
+    width: 40px;
+    font-size: 12px;
+    border-radius: 4px;
+    border: none;
+    font-weight: bold;
+    background: #808080;
+    color: white;
+    margin-left: 5px;
+}
+
+.post-function-btn-area button:hover{
+    background: #a0a0a0
+}

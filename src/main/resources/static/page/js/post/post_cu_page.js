@@ -1,5 +1,12 @@
-let postCreate = function (e) {
+let postCUPage = function (e) {
     let imgList = {};
+    let imgDeleteList = [];
+
+    let pageInit = () => {
+        for(let postImage of postImages){
+            dbImgDrawing(postImage?.id, postImage?.filePath)
+        }
+    }
 
     let postEvent = () => {
         // 제목 추가 or 수정
@@ -27,6 +34,7 @@ let postCreate = function (e) {
         let title = document.getElementById("title");
         let content = document.getElementById("content");
         let submitBtn = document.getElementById("createBtn");
+        let updateBtn = document.getElementById("updateBtn");
 
         // 제목 유효성 검사
         if( typeof type === "undefined" || type === "title"){
@@ -45,8 +53,10 @@ let postCreate = function (e) {
         // 유효성 검사 결과에 따라서 submit 버튼 활성화/비활성화
         if(title.classList.contains("is-invalid") || content.classList.contains("is-invalid")){
             submitBtn.classList.add("disabled");
+            updateBtn.classList.add("disabled");
         }else{
             submitBtn.classList.remove("disabled");
+            updateBtn.classList.remove("disabled");
         }
     }
 
@@ -89,11 +99,25 @@ let postCreate = function (e) {
         });
     }
 
+    function dbImgDrawing(id, src){
+        let imgPreviewHtml = `<div id="img_${id}">
+                                        <img id="previewImg${id}" src="${'/' + src.replace('src\\main\\resources\\static\\', '').replaceAll('\\', '/')}" data-key="${id}" />
+                                        <a class="img-delete" onclick="postCUPage.dbImgDelete('${id}')"/>
+                                     </div>`;
+        let imgViewer = $("#imgViewer");
+
+        if(imgViewer.children("div").length === 0){
+            imgViewer.html(imgPreviewHtml);
+        }else{
+            imgViewer.append(imgPreviewHtml);
+        }
+    }
+
     // 이미지 Html에 삽입
     function imgDrawing(randomId) {
         let imgPreviewHtml = `<div id="img_${randomId}">
                                         <img id="previewImg${randomId}" data-key="${randomId}" />
-                                        <a class="img-delete" onclick="postCreate.imgDelete('${randomId}')"/>
+                                        <a class="img-delete" onclick="postCUPage.imgDelete('${randomId}')"/>
                                      </div>`;
         let imgViewer = $("#imgViewer");
 
@@ -122,6 +146,17 @@ let postCreate = function (e) {
         }
     }
 
+    // DB 저장 이미지 삭제
+    function dbImgDelete(id) {
+        $("#img_" + id).remove();
+        imgDeleteList.push(id);
+
+        if($("#imgViewer").children("div").length === 0){
+            let noneImgMessage = `<label>등록된 이미지가 없습니다.</label>`;
+            $("#imgViewer").html(noneImgMessage);
+        }
+    }
+
     // 게시글 등록
     function handleCreateBtnClick(){
         let imgFormData = new FormData();
@@ -143,6 +178,7 @@ let postCreate = function (e) {
             processData: false,
             contentType: false,
             success: function(res) {
+                console.log(res);
                 if(res === "success"){
                     window.location.href = ctx + "/post/list";
                 }else{
@@ -152,16 +188,54 @@ let postCreate = function (e) {
         });
     }
 
+    function handleUpdateBtnClick(){
+        let updateFormData = new FormData();
+        let postId = document.getElementById("postId").value.trim()
+        updateFormData.append('id', postId);
+        updateFormData.append('title', document.getElementById("title").value.trim());
+        updateFormData.append('content', document.getElementById("content").value.trim());
+        updateFormData.append('writer', document.getElementById("name").value.trim());
+
+        Object.keys(imgList).forEach(function(key) {
+            updateFormData.append('images', imgList[key]);
+        });
+
+        imgDeleteList.forEach(function(id) {
+            updateFormData.append('deleteImages', id);
+        });
+
+        $.ajax({
+            url: ctx + "/ajax/post/update",
+            headers : {
+                "Authorization" : "Bearer " + token
+            },
+            data: updateFormData,
+            method: "PUT",
+            processData: false,
+            contentType: false,
+            success: function(res) {
+                if(res === "success"){
+                    window.location.href = ctx + "/post/page?id=" + postId;
+                }else{
+                    alert("게시글 수정에 실패했습니다.");
+                }
+            }
+        });
+    }
+
     return {
         init : function() {
+            pageInit()
             postEvent()
             handleImgInputBtnClick()
         },
         handleCreateBtnClick,
-        imgDelete
+        handleUpdateBtnClick,
+        imgDelete,
+        dbImgDelete
     }
 }();
 
 $(function() {
-    postCreate.init();
+    postCUPage.init();
 })
