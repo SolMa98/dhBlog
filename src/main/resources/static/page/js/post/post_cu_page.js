@@ -178,7 +178,6 @@ let postCUPage = function (e) {
             processData: false,
             contentType: false,
             success: function(res) {
-                console.log(res);
                 if(res === "success"){
                     window.location.href = ctx + "/post/list";
                 }else{
