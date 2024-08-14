@@ -19,6 +19,13 @@
 
                     <hr class="my-4" />
                 </th:block>
+                <th:block th:unless="${data != null and data.content.size() > 0}">
+                    <div>
+                        <p class="post-none">게시글이 존재하지 않습니다.</p>
+                    </div>
+
+                    <hr class="my-4" />
+                </th:block>
                 <div class="page-space">
                     <th:block th:if="${page != null}">
                         <ul th:utext="${page.getNavigator()}">
@@ -36,7 +43,8 @@
                            th:value="${param.title != null && !#strings.isEmpty(param.title) ? param.title :
                           (param.content != null && !#strings.isEmpty(param.content) ? param.content :
                           (param.writer != null && !#strings.isEmpty(param.writer) ? param.writer :
-                          (param.title != null && param.content != null ? param.title + ' ' + param.content : '')))}">
+                          (param.title != null && param.content != null ? param.title + ' ' + param.content : '')))}"
+                        onkeyup="postListPage.handleSearchEnterKeyClick(event)">
                     <a onclick="postListPage.handleSearchBtnClick()">검색</a>
                 </div>
             </div>
