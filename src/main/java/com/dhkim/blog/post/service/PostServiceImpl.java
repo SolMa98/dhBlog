@@ -125,11 +125,23 @@ public class PostServiceImpl implements PostService{
     @Override
     public String postListPageOpen(HttpServletRequest request, PostDto post) {
         Pageable pageable = PageRequest.of(post.getPage(), 10, Sort.by("createdAt").descending());
-        Page<Post> postData = postRepository.findAll(pageable);
+        Page<Post> postData;
+        if ((post.getTitle() != null && !post.getTitle().isEmpty()) && (post.getContent() != null && !post.getContent().isEmpty())) {
+            postData = postRepository.findByTitleContainingOrContentContaining(post.getTitle(), post.getContent(), pageable);
+        } else if (post.getTitle() != null && !post.getTitle().isEmpty()) {
+            postData = postRepository.findByTitleContaining(post.getTitle(), pageable);
+        } else if (post.getContent() != null && !post.getContent().isEmpty()) {
+            postData = postRepository.findByContentContaining(post.getContent(), pageable);
+        } else if (post.getWriter() != null && !post.getWriter().isEmpty()) {
+            postData = postRepository.findByWriter(post.getWriter(), pageable);
+        }else{
+            postData = postRepository.findAll(pageable);
+        }
         PaginationUtils pagination = PaginationUtils.getPagination(postData.getSize(), postData.getNumber(), postData.getTotalElements(), postData.getTotalPages());
 
         request.setAttribute("data", postData);
         request.setAttribute("page", pagination);
+        request.setAttribute("param", post);
         PageUtils.pageHeaderTabSetting(request, loginService.jwtTokenValidation(request));
 
         return "/post/postListPage";

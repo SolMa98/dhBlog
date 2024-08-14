@@ -19,21 +19,30 @@
 
                     <hr class="my-4" />
                 </th:block>
-
                 <div class="page-space">
                     <th:block th:if="${page != null}">
                         <ul th:utext="${page.getNavigator()}">
                         </ul>
                     </th:block>
                 </div>
+                <div class="search-tab">
+                    <select id="searchType">
+                        <option value="title" th:selected="${param.title != null && !#strings.isEmpty(param.title) && param.content == null}">제목</option>
+                        <option value="content" th:selected="${param.content != null && !#strings.isEmpty(param.content) && param.title == null}">내용</option>
+                        <option value="writer" th:selected="${param.writer != null && !#strings.isEmpty(param.writer)}">작성자</option>
+                        <option value="tc" th:selected="${param.title != null && !#strings.isEmpty(param.title) && param.content != null && !#strings.isEmpty(param.content)}">제목+내용</option>
+                    </select>
+                    <input type="text" id="searchData" name="searchData"
+                           th:value="${param.title != null && !#strings.isEmpty(param.title) ? param.title :
+                          (param.content != null && !#strings.isEmpty(param.content) ? param.content :
+                          (param.writer != null && !#strings.isEmpty(param.writer) ? param.writer :
+                          (param.title != null && param.content != null ? param.title + ' ' + param.content : '')))}">
+                    <a onclick="postListPage.handleSearchBtnClick()">검색</a>
+                </div>
             </div>
         </div>
     </div>
 </body>
 
-<script th:inline="javascript">
-    let postData = /*[[${data}]]*/ {};
-    let page = /*[[${page}]]*/ {};
-</script>
 <script src="/page/js/post/post_list_page.js"></script>
 </html>

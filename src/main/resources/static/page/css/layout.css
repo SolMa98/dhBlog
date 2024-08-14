@@ -91,3 +91,42 @@
 .app-name:hover {
     color: white;
 }
+
+.search-tab {
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    margin: 5px 0 5px 0;
+}
+
+.search-tab select{
+    border: 1px solid black;
+    border-right: none;
+    border-radius: 3px 0 0 3px;
+    padding: 3px;
+    outline: none;
+}
+
+.search-tab input{
+    border: 1px solid black;
+    border-radius: 0 3px 3px 0;
+    padding: 3px;
+}
+
+.search-tab input:focus-visible{
+    outline: none;
+}
+
+.search-tab a{
+    margin-left: 5px;
+    border-radius: 5px;
+    padding: 3px 10px 3px 10px;
+    cursor: pointer;
+    font-weight: bold;
+    background: black;
+    color: white !important;
+}
+
+.search-tab a:hover{
+    background: grey;
+}
