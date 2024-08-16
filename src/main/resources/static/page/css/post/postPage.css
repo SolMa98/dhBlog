@@ -30,3 +30,70 @@
 .post-function-btn-area button:hover{
     background: #a0a0a0
 }
+
+.post-reply {
+    display: block;
+}
+
+.post-reply .reply-view {
+    display: inline-flex;
+    margin-bottom: 10px;
+    border: 1px solid;
+    padding: 3px 0 3px 5px;
+    font-size: 15px;
+    border-radius: 2px;
+    justify-content: center;
+    align-items: center;
+    cursor : pointer;
+}
+
+.post-reply .reply-view p {
+    margin: 0;
+}
+
+.post-reply .reply-view .post-reply-fold {
+    background: url("../../img/up_icon.svg") no-repeat;
+    background-size: cover;
+    width: 20px;
+    height: 20px;
+}
+
+.post-reply .reply-view .post-reply-unfold {
+    background: url("../../img/down_icon.svg") no-repeat;
+    background-size: cover;
+    width: 20px;
+    height: 20px;
+}
+
+.post-reply .post-reply-input-space {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    font-size: 14px;
+    border: solid 1px;
+    margin-bottom: 5px;
+}
+
+.post-reply .post-reply-input-space textarea{
+    resize: none;
+    border-radius: 5px;
+    padding: 5px;
+    display: flex;
+    width: calc(100% - 66px);
+}
+
+.post-reply .post-reply-input-space a{
+    padding: 15.5px;
+    margin-left: 5px;
+    border-radius: 5px;
+    height: 100%;
+    cursor: pointer;
+    background-color: #797B81;
+    color: white;
+    font-weight: bold;
+}
+
+.post-reply .post-reply-input-space a:hover{
+    background-color: #9a9b9f;
+    color: white;
+}

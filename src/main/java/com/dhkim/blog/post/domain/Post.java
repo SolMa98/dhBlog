@@ -36,6 +36,10 @@ public class Post {
     @JsonManagedReference
     private List<Image> postImages = new ArrayList<>();
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Reply> replyList = new ArrayList<>();
+
     @PrePersist
     protected void onCreate() {
         createdAt = new Date();

@@ -18,6 +18,20 @@ let postPage = function(e){
         $("#postContent").html(postHtml);
     }
 
+    function handleReplyViewBtnClick() {
+        let replyStatus = document.getElementById("replyBtnImg");
+        let replySpace = document.getElementById("replySpace");
+        if(replyStatus.classList.contains("post-reply-unfold")){
+            replyStatus.classList.remove("post-reply-unfold");
+            replyStatus.classList.add("post-reply-fold");
+            replySpace.classList.remove("d-none");
+        }else{
+            replyStatus.classList.add("post-reply-unfold");
+            replyStatus.classList.remove("post-reply-fold");
+            replySpace.classList.add("d-none");
+        }
+    }
+
     function handleUpdateBtnClick() {
         window.location.href = ctx + "/post/cu?id=" + postId;
     }
@@ -51,7 +65,8 @@ let postPage = function(e){
             pageInit()
         },
         handleUpdateBtnClick,
-        handleDeleteBtnClick
+        handleDeleteBtnClick,
+        handleReplyViewBtnClick
     }
 }();
 
