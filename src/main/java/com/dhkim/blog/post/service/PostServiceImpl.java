@@ -3,9 +3,12 @@ package com.dhkim.blog.post.service;
 import com.dhkim.blog.login.service.LoginService;
 import com.dhkim.blog.post.domain.Image;
 import com.dhkim.blog.post.domain.Post;
+import com.dhkim.blog.post.domain.Reply;
 import com.dhkim.blog.post.dto.PostDto;
+import com.dhkim.blog.post.dto.ReplyDto;
 import com.dhkim.blog.post.repository.ImageRepository;
 import com.dhkim.blog.post.repository.PostRepository;
+import com.dhkim.blog.post.repository.ReplyRepository;
 import com.dhkim.blog.util.ImageUtils;
 import com.dhkim.blog.util.PageUtils;
 import com.dhkim.blog.util.PaginationUtils;
@@ -33,12 +36,14 @@ import java.util.Optional;
 public class PostServiceImpl implements PostService{
     private final PostRepository postRepository;
     private final ImageRepository imageRepository;
+    private final ReplyRepository replyRepository;
     private final LoginService loginService;
 
     @Autowired
-    public PostServiceImpl(PostRepository postRepository, ImageRepository imageRepository, LoginService loginService){
+    public PostServiceImpl(PostRepository postRepository, ImageRepository imageRepository, ReplyRepository replyRepository, LoginService loginService){
         this.postRepository = postRepository;
         this.imageRepository = imageRepository;
+        this.replyRepository = replyRepository;
         this.loginService = loginService;
     }
 
@@ -154,12 +159,22 @@ public class PostServiceImpl implements PostService{
         PageUtils.pageHeaderTabSetting(request, loginService.jwtTokenValidation(request));
         HttpSession session = request.getSession();
 
+        // 게시글 수정, 삭제 용
         if(data.getWriter().equals(session.getAttribute("userNickname"))){
             request.setAttribute("token", session.getAttribute("accessToken"));
             request.setAttribute("postAuthorityBtn", "ok");
         }else{
             request.setAttribute("token", "");
             request.setAttribute("postAuthorityBtn", "no");
+        }
+
+        // 댓글 용
+        if(session.getAttribute("userNickname") != null && session.getAttribute("userNickname") != ""){
+            request.setAttribute("reply_token", session.getAttribute("accessToken"));
+            request.setAttribute("userNickName", session.getAttribute("userNickname"));
+        }else{
+            request.setAttribute("reply_token", "");
+            request.setAttribute("userNickName", "");
         }
 
         return "/post/postPage";
@@ -201,6 +216,37 @@ public class PostServiceImpl implements PostService{
             return "error";
         }
 
+        return "ok";
+    }
+
+    @Override
+    public String replyCreate(ReplyDto replyDto){
+        try{
+            Optional<Post> optionalPost = postRepository.findById(replyDto.getPost_id());
+            if (optionalPost.isPresent()) {
+                Reply reply = new Reply();
+                reply.setPost(optionalPost.get());
+                reply.setComment(replyDto.getComment());
+                reply.setNickname(replyDto.getNickname());
+
+                Reply resultReply = replyRepository.save(reply);
+                return resultReply.getId().toString();
+            } else {
+                return "error";
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return "error";
+        }
+    }
+
+    @Override
+    public String replyDelete(HttpServletRequest request, String id) {
+        try{
+            replyRepository.deleteById(id);
+        }catch (Exception e){
+            return "error";
+        }
         return "ok";
     }
 }

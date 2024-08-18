@@ -50,4 +50,9 @@ public class Post {
     protected void onUpdate() {
         modifiedAt = new Date();
     }
+
+    @Override
+    public String toString() {
+        return "Post{id=" + id + ", title='" + title + "', content='[PROTECTED]', writer='" + writer + "', createdAt=" + createdAt + ", modifiedAt=" + modifiedAt + "}";
+    }
 }

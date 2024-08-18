@@ -14,6 +14,7 @@
     justify-content: end;
     display: flex;
     margin-bottom: 5px;
+    margin-top: 5px;
 }
 
 .post-function-btn-area button{
@@ -29,6 +30,11 @@
 
 .post-function-btn-area button:hover{
     background: #a0a0a0
+}
+
+#replySpace {
+    background-color: #cccccc;
+    padding: 10px;
 }
 
 .post-reply {
@@ -96,4 +102,44 @@
 .post-reply .post-reply-input-space a:hover{
     background-color: #9a9b9f;
     color: white;
+}
+
+.post-reply .reply {
+    margin-bottom: 5px;
+}
+
+.post-reply .reply p {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.post-reply .reply pre {
+    font-size: 14px;
+    width: 100%;
+    padding-left: 5px;
+    margin-bottom : 5px;
+}
+
+.post-reply .reply .reply-btn-space {
+    font-size: 12px;
+    display: flex;
+    justify-content: end;
+    padding-bottom: 5px;
+    border-bottom: 1px dashed black;
+}
+
+.post-reply .reply .reply-btn-space .reply-upt-btn {
+    background-color: #ff8c00;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+.post-reply .reply .reply-btn-space .reply-del-btn{
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
 }

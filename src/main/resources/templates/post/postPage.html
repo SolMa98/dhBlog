@@ -4,10 +4,10 @@
 <body>
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
-            <div class="col-md-10 col-lg-8 col-xl-7" id="postContent">
+            <div class="col-xl-7" id="postContent">
                 <p class="post-content">준비 중 입니다. 잠시만 기다려 주세요.</p>
             </div>
-            <div>
+            <div class="col-xl-7">
                 <div class="post-reply">
                     <div class="reply-view" onclick="postPage.handleReplyViewBtnClick()">
                         <p>댓글</p>
@@ -15,13 +15,13 @@
                     </div>
 
                     <div id="replySpace" class="d-none">
-                        <div>
+                        <div id="replyViewSpace">
 
                         </div>
 
                         <div class="post-reply-input-space">
-                            <textarea></textarea>
-                            <a>작성</a>
+                            <textarea id="insertReply"></textarea>
+                            <a onclick="postPage.handleReplyInsertBtnClick()">작성</a>
                         </div>
                     </div>
                 </div>
@@ -36,12 +36,17 @@
     </div>
 </body>
 
+<input type="hidden" id="userNickName" th:value="${userNickName}"/>
+<input type="hidden" id="replyToken" th:value="${reply_token}"/>
+<input type="hidden" id="token" th:value="${token}"/>
+<input type="hidden" id="postId" th:value="${post.id}"/>
+<input type="hidden" id="content" th:value="${post.content}"/>
+<input type="hidden" id="postReply" th:value="${post}"/>
+
 <link rel="stylesheet" th:href="@{/page/css/post/postPage.css}"/>
 <script th:inline="javascript">
-    let postId = /*[[${post.id}]]*/ {};
-    let content = /*[[${post.content}]]*/ {};
     let images = /*[[${post.postImages}]]*/ {};
-    let token = /*[[${token}]]*/ {};
+    let replys = /*[[${post.replyList}]]*/ {};
 </script>
 <script src="/page/js/post/post_page.js"></script>
 </html>

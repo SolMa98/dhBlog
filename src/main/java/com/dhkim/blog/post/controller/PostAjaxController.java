@@ -1,6 +1,7 @@
 package com.dhkim.blog.post.controller;
 
 import com.dhkim.blog.post.dto.PostDto;
+import com.dhkim.blog.post.dto.ReplyDto;
 import com.dhkim.blog.post.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -28,5 +29,15 @@ public class PostAjaxController {
     @DeleteMapping()
     public String postDelete(HttpServletRequest request, String id){
         return service.postDelete(request, id);
+    }
+
+    @PostMapping("/reply")
+    public String replyCreate(ReplyDto replyDto){
+        return service.replyCreate(replyDto);
+    }
+
+    @DeleteMapping("/reply")
+    public String replyDelete(HttpServletRequest request, String id){
+        return service.replyDelete(request, id);
     }
 }

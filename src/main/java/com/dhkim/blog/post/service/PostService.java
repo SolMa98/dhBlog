@@ -2,6 +2,7 @@ package com.dhkim.blog.post.service;
 
 import com.dhkim.blog.post.domain.Post;
 import com.dhkim.blog.post.dto.PostDto;
+import com.dhkim.blog.post.dto.ReplyDto;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -56,5 +57,18 @@ public interface PostService {
      */
     public String postCUPageOpen(HttpServletRequest request, String id);
 
+    /**
+     * 블로그 게시글 제거
+     * @param request
+     * @param id
+     * @return
+     */
     public String postDelete(HttpServletRequest request, String id);
+
+    /**
+     *
+     */
+    public String replyCreate(ReplyDto replyDto);
+
+    public String replyDelete(HttpServletRequest request, String id);
 }
