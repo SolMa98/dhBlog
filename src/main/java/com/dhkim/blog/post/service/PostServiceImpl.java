@@ -243,7 +243,17 @@ public class PostServiceImpl implements PostService{
     @Override
     public String replyDelete(HttpServletRequest request, String id) {
         try{
-            replyRepository.deleteById(id);
+            Optional<Reply> optionalReply = replyRepository.findById(id);
+            if (optionalReply.isPresent()) {
+                Reply reply = optionalReply.get();
+                HttpSession session = request.getSession();
+
+                if(reply.getNickname().equals(session.getAttribute("userNickname").toString())){
+                    replyRepository.deleteById(id);
+                }else{
+                    return "error";
+                }
+            }
         }catch (Exception e){
             return "error";
         }

@@ -18,11 +18,12 @@
                         <div id="replyViewSpace">
 
                         </div>
-
-                        <div class="post-reply-input-space">
-                            <textarea id="insertReply"></textarea>
-                            <a onclick="postPage.handleReplyInsertBtnClick()">작성</a>
-                        </div>
+                        <th:block th:if="${reply_token != ''}">
+                            <div class="post-reply-input-space">
+                                <textarea id="insertReply"></textarea>
+                                <a onclick="postPage.handleReplyInsertBtnClick()">작성</a>
+                            </div>
+                        </th:block>
                     </div>
                 </div>
             </div>

@@ -70,8 +70,8 @@ let postPage = function(e){
         let userNickname = document.getElementById("userNickName").value;
         let replyFunctionBtn = "";
         if(userNickname === reply.nickname.toString()){
-            replyFunctionBtn = `<button class="reply-upt-btn">수정</button>
-                                <button class="reply-del-btn" onclick="postPage.handleReplyDeleteBtnClick('${reply.id}')">삭제</button>`;
+            /* <button class="reply-upt-btn">수정</button> */
+            replyFunctionBtn = `<button class="reply-del-btn" onclick="postPage.handleReplyDeleteBtnClick('${reply.id}')">삭제</button>`;
         }
 
         let replyHtml = `<div class="reply" id="reply_${reply.id}">
